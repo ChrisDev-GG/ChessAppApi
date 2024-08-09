@@ -1,0 +1,9 @@
+Middleware verifyJWT
+
+- Este middleware setea en la request : 
+
+    req.payload_token = {
+        email: user[0].email, 
+    }
+
+    req.user_id
