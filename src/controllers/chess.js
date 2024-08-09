@@ -7,7 +7,7 @@ const { encryptData, decryptData } = require('../utilities/encryption');
 const jwt = require('jsonwebtoken');
 const path = require('path');
 const { generateJWT } = require('../middleware/jwt');
-
+const logger = require('../config/logger');
 require('dotenv').config();
 
 
@@ -34,10 +34,12 @@ class ChessController {
                 else await connection.query( "UPDATE users SET last_login = NOW() WHERE email = $1;", { bind: [email], transaction: t });
                 const token = await generateJWT( { email: verify[0].email, user_id: verify[0].user_id } );
                 console.log(token);
+                logger.info({ message: `Sesion iniciada: ${email}`, label: __filename });
                 return res.status(200).json({ ok: true, msg:'Sesión iniciada!', token: token });
             });
         } catch (error) {
             console.log(error);
+            logger.error({ message: `Error al iniciar sesion : ${email}`, label: __filename });
             return res.status(400).json({ ok: false, msg:'Problemas con el ingreso, por favor inténtelo de nuevo [CH:01].' });
         }    
     }
