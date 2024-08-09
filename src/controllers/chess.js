@@ -39,7 +39,7 @@ class ChessController {
             });
         } catch (error) {
             console.log(error);
-            logger.error({ message: `Error al iniciar sesion : ${email}`, label: __filename });
+            logger.error({ message: `Error al iniciar sesion : ${error}`, label: __filename });
             return res.status(400).json({ ok: false, msg:'Problemas con el ingreso, por favor inténtelo de nuevo [CH:01].' });
         }    
     }
