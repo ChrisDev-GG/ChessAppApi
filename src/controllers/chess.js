@@ -25,9 +25,12 @@ class ChessController {
         try {
             console.log(email);
             await connection.transaction( async (t) => {
-                const verify = await connection.query( "SELECT * FROM users WHERE LOWER(email)=LOWER($1);", { bind: [email], type: QueryTypes.SELECT, transaction: t });
+                let verify = await connection.query( "SELECT * FROM users WHERE LOWER(email)=LOWER($1);", { bind: [email], type: QueryTypes.SELECT, transaction: t });
                 console.log(verify);
-                if (verify.length <= 0)  await connection.query( "INSERT INTO users (email, last_login) VALUES ($1, NOW());", { bind: [email], transaction: t });
+                if (verify.length <= 0)  {
+                    await connection.query( "INSERT INTO users (email, last_login) VALUES ($1, NOW());", { bind: [email], transaction: t });
+                    verify = await connection.query( "SELECT * FROM users WHERE LOWER(email)=LOWER($1);", { bind: [email], type: QueryTypes.SELECT, transaction: t });
+                }   
                 else await connection.query( "UPDATE users SET last_login = NOW() WHERE email = $1;", { bind: [email], transaction: t });
                 const token = await generateJWT( { email: verify[0].email, user_id: verify[0].user_id } );
                 console.log(token);
