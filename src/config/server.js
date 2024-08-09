@@ -45,12 +45,12 @@ class Server {
     this.app.use('/', require('../routes/all'));
   }
       
-  listen() { // PARA DESARROLLO
+  /* listen() { // PARA DESARROLLO
     this.app.listen(this.port, '0.0.0.0',() => {console.log(`escuchando puerto: ${this.port}`)} )
-  }
-  /* listen() { // PARA PRODUCCION
-    this.app.listen(this.port, () => {console.log(`escuchando puerto: ${this.port}`)} )
   } */
+  listen() { // PARA PRODUCCION
+    this.app.listen(this.port, () => {console.log(`escuchando puerto: ${this.port}`)} )
+  }
  
 }
 
