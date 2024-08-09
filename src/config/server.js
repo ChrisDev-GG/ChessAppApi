@@ -41,7 +41,7 @@ class Server {
 
   routes() {
     // this.app.use('/api/', require('../routes/'));
-    this.app.use('/api/chess', require('../routes/chess'));
+    this.app.use('/chess', require('../routes/chess'));
     this.app.use('/', require('../routes/all'));
   }
       
